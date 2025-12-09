@@ -25,6 +25,10 @@
         }
     </style>
 
+    <!-- BELANGRIJK: Eerst jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Daarna pas Turn.js  -->
     <script src="turn.min.js"></script>
 </head>
 <body>
@@ -37,7 +41,7 @@
 </div>
 
 <script>
-    document.getElementById('flipbook').turn({
+    $("#flipbook").turn({
         width: '100%',
         height: '100%',
         autoCenter: true,
