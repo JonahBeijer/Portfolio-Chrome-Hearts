@@ -27,30 +27,25 @@
             font-size: 48px;
         }
 
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            font-size: 22px;
-            margin-bottom: 40px;
+        /* Flipbook container */
+        .flipbook-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 0;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            border-bottom: 1px solid white;
+        .flipbook-wrapper iframe {
+            width: 100%;
+            height: 95vh;
+            border: none;
         }
 
         /* Hero banner */
         .hero {
             width: 100%;
             height: 85vh;
-            background-image: url('images/bg-ch.jpg'); /* VERVANG DOOR EIGEN FOTO */
+            background-image: url('images/bg-ch.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -84,21 +79,15 @@
 
 <header>CHROME HEARTS</header>
 
-<div style="display:flex; justify-content:center; padding:40px 0;">
-    <iframe
-            src="https://online.flippingbook.com/view/445626120/?embed=true&fullscreen=false&toolbar=false"
-            style="width:100%; height:100vh; border:none;"
-            scrolling="no"
-            allowfullscreen>
-    </iframe>
-
+<!-- EIGEN FLIPBOOK (Turn.js) -->
+<div class="flipbook-wrapper">
+    <iframe src="flipbook/index.html" allowfullscreen></iframe>
 </div>
 
 <div class="hero"></div>
 
 <section class="gallery">
-
-
+    <!-- afbeeldingen komen later -->
 </section>
 
 <footer>
