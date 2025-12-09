@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Chrome Hearts — Portfolio</title>
 
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+    <!-- Turn.js -->
     <script src="https://raw.githack.com/blasten/turn.js/master/turn.min.js"></script>
 
     <style>
@@ -37,7 +40,6 @@
             background-size: cover;
             background-position: center;
         }
-
 
         .flipbook-container {
             width: 100%;
@@ -80,19 +82,27 @@
 
 <header>CHROME HEARTS</header>
 
-<div class="hero"></div>   <!-- <-- JUISTE SLUITING -->
+<!-- FIXED: hero DIV PROPERLY CLOSED -->
+<div class="hero"></div>
 
 <section class="flipbook-container">
     <div id="flipbook">
-        <div class="page hard"><img src="1.jpg"></div>
-        <div class="page"><img src="2.jpg"></div>
-        <div class="page"><img src="3.jpg"></div>
-        <div class="page"><img src="4.jpg"></div>
-        <div class="page"><img src="5.jpg"></div>
-        <div class="page"><img src="6.jpg"></div>
-        <div class="page"><img src="7.jpg"></div>
-        <div class="page"><img src="8.jpg"></div>
-        <div class="page hard"><img src="9.jpg"></div>
+
+        <!-- Hard cover -->
+        <div class="page hard"><img src="1.jpg" alt="Cover"></div>
+
+        <!-- Inside pages -->
+        <div class="page"><img src="2.jpg" alt="Page 2"></div>
+        <div class="page"><img src="3.jpg" alt="Page 3"></div>
+        <div class="page"><img src="4.jpg" alt="Page 4"></div>
+        <div class="page"><img src="5.jpg" alt="Page 5"></div>
+        <div class="page"><img src="6.jpg" alt="Page 6"></div>
+        <div class="page"><img src="7.jpg" alt="Page 7"></div>
+        <div class="page"><img src="8.jpg" alt="Page 8"></div>
+
+        <!-- Hard back cover -->
+        <div class="page hard"><img src="9.jpg" alt="Back Cover"></div>
+
     </div>
 </section>
 
@@ -100,23 +110,19 @@
 
 <script>
     $(document).ready(function () {
-        var flipbook = $("#flipbook");
 
-        flipbook.turn({
+        $("#flipbook").turn({
             width: 1200,
             height: 600,
             autoCenter: true,
             display: "double",
-            acceleration: true,
             elevation: 50,
             gradients: true,
-            duration: 1000
+            duration: 1200
         });
 
-        console.log("Turn.js is gestart. Huidige pagina: " + flipbook.turn("page"));
     });
 </script>
-
 
 </body>
 </html>
