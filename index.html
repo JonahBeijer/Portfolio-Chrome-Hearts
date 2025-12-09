@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <title>Chrome Hearts — Portfolio</title>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
-    <!-- Turn.js v3 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
 
     <style>
         /* Custom font */
@@ -24,6 +22,7 @@
             background: #000;
             color: #fff;
             font-family: 'Ds Cloister', serif;
+            overflow-x: hidden; /* Voorkom horizontale scrollbalk */
         }
 
         header {
@@ -46,27 +45,38 @@
             width: 100%;
             display: flex;
             justify-content: center;
+            align-items: center;
             margin: 60px 0;
+            padding-bottom: 60px;
         }
 
         /* Flipbook settings */
         #flipbook {
-            width: 1200px;  /* breed genoeg voor 2 pagina's */
+            width: 1200px;
             height: 600px;
+            /* Zorg dat de boekcontainer relatief is voor positionering */
+            position: relative;
         }
 
-        /* Elke page */
-        #flipbook > div {
-            background: white;   /* verplicht voor klikbare pagina’s */
-            width: 100%;
-            height: 100%;
+        /* 3. BELANGRIJKSTE CSS FIX: Elke pagina moet de HELFT van het boek zijn */
+        #flipbook .page {
+            width: 600px;  /* 1200 gedeeld door 2 */
+            height: 600px;
+            background-color: white;
+            overflow: hidden; /* Zorgt dat plaatjes niet uitsteken */
         }
 
         #flipbook img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover; /* Of 'contain' als je witruimte wilt */
             display: block;
+        }
+
+        /* Hardcovers (optioneel, voor pagina 1 en laatste) */
+        .hard {
+            background: #333 !important;
+            color: #fff;
         }
 
         footer {
@@ -85,36 +95,35 @@
 
 <section class="flipbook-container">
 
-    <!-- Turn.js Flipbook -->
     <div id="flipbook">
+        <div class="page hard"><img src="logincss.png" alt="Cover"></div>
 
-        <!-- PAGE 1 (COVER) -->
-        <div><img src="logincss.png"></div>
+        <div class="page"><img src="hiddenpage0.png" alt="Page 2"></div>
 
-        <!-- SPREAD 1 (PAGE 2 + PAGE 3) -->
-        <div><img src="hiddenpage0.png"></div>
-        <div><img src="tactiqicon.png"></div>
+        <div class="page"><img src="tactiqicon.png" alt="Page 3"></div>
 
-        <!-- SPREAD 2 (PAGE 4 + PAGE 5) -->
-        <div><img src="webcam.png"></div>
-        <div><img src="webcam.png"></div> <!-- duplicate until you add more pages -->
+        <div class="page"><img src="webcam.png" alt="Page 4"></div>
 
+        <div class="page"><img src="webcam.png" alt="Page 5"></div>
+
+        <div class="page hard"><img src="webcam.png" alt="Back Cover"></div>
     </div>
 
 </section>
 
 <footer>© 2025 Chrome Hearts — Portfolio by Iris Draai</footer>
 
-<!-- Turn.js INIT -->
 <script>
-    $(function () {
+    $(document).ready(function () {
         $("#flipbook").turn({
             width: 1200,
             height: 600,
             autoCenter: true,
-            display: "double",    // !!! belangrijke instelling voor boekspread
+            display: "double",
+            acceleration: true, // Helpt bij glitching op mobiel/touch
             elevation: 50,
             gradients: true,
+            duration: 1000 // Snelheid van omslaan
         });
     });
 </script>
