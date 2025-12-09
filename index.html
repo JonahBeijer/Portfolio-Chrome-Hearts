@@ -7,9 +7,8 @@
     <!-- jQuery first -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Turn.js from cdnjs (v0.11) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/0.11/turn.min.js"></script>
-
+    <!-- Turn.js v3 from cdnjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
 
     <style>
         /* Custom font */
@@ -118,12 +117,14 @@
 
 <!-- Initialize the flipbook -->
 <script>
-    $("#flipbook").turn({
-        width: 800,
-        height: 600,
-        autoCenter: true,
-        display: "single",
-        gradients: true
+    $(function () {
+        $("#flipbook").turn({
+            width: 800,
+            height: 600,
+            autoCenter: true,
+            display: "single",
+            gradients: true
+        });
     });
 </script>
 
