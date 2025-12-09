@@ -18,45 +18,51 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('images/bg-ch.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff;
             font-family: 'Ds Cloister', serif;
-            overflow-x: hidden;
+            color: white;
+            background: url('images/bg-ch.jpg') center/cover fixed;
+            -webkit-font-smoothing: antialiased;
         }
 
         header {
             text-align: center;
-            padding: 50px 0;
+            padding: 50px 0 20px;
             font-size: 60px;
             letter-spacing: 3px;
             text-shadow: 0 0 15px black;
+            position: relative;
+            z-index: 10;
         }
 
         .flipbook-wrapper {
-            width: 40%;
-            max-width: 700px;
-            margin: 40px auto 0;
+            width: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        #flipbook {
+            width: 1000px;
+            height: 650px;
+            transform-origin: top center;
+        }
+
+        #flipbook .page,
+        #flipbook .hard {
+            background: transparent;
         }
 
         #flipbook img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            background: transparent;
-            -webkit-user-drag: none;
+            object-fit: cover;
+            pointer-events: none;
             user-select: none;
         }
 
         .book-controls {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 25px;
         }
 
         .book-button {
@@ -67,29 +73,42 @@
             margin: 0 15px;
             font-size: 18px;
             cursor: pointer;
+            transition: 0.2s ease;
         }
 
         .book-button:hover {
-            background: #ccc;
+            background: #cfcfcf;
         }
 
         footer {
             text-align: center;
             padding: 50px;
-            font-size: 20px;
+            font-size: 18px;
             opacity: 0.85;
         }
 
         .insta-img {
             width: 32px;
             height: 32px;
-            object-fit: contain;
             vertical-align: middle;
             transition: 0.2s ease;
         }
 
         .insta-img:hover {
             filter: brightness(0.7);
+        }
+
+        /* 🔥 Responsive scaling */
+        @media (max-width: 1200px) {
+            #flipbook {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 900px) {
+            #flipbook {
+                transform: scale(0.6);
+            }
         }
     </style>
 </head>
@@ -98,17 +117,7 @@
 <header>CHROME HEARTS</header>
 
 <section class="flipbook-wrapper">
-    <div id="flipbook">
-        <div class="page hard"><img src="1.jpg" alt=""></div>
-        <div class="page"><img src="2.jpg" alt=""></div>
-        <div class="page"><img src="3.jpg" alt=""></div>
-        <div class="page"><img src="4.jpg" alt=""></div>
-        <div class="page"><img src="5.jpg" alt=""></div>
-        <div class="page"><img src="6.jpg" alt=""></div>
-        <div class="page"><img src="7.jpg" alt=""></div>
-        <div class="page"><img src="8.jpg" alt=""></div>
-        <div class="page hard"><img src="9.jpg" alt=""></div>
-    </div>
+    <div id="flipbook"></div>
 </section>
 
 <div class="book-controls">
@@ -123,53 +132,33 @@
     </a>
 </footer>
 
-
 <script>
-
-    const PAGE_SCALE = 0.30;
-
-    function initFlipbook() {
-        const sample = new Image();
-        sample.src = "1.jpg";
-
-        sample.onload = function () {
-
-            const imgW = sample.width;
-            const imgH = sample.height;
-
-            const pageW = imgW * PAGE_SCALE;
-            const pageH = imgH * PAGE_SCALE;
-
-            const flipbook = $("#flipbook");
-
-            $(".page").css({
-                width: pageW + "px",
-                height: pageH + "px"
-            });
-
-            flipbook.css({
-                width: pageW * 2 + "px",
-                height: pageH + "px"
-            });
-
-            flipbook.turn({
-                width: pageW * 2,
-                height: pageH,
-                autoCenter: true,
-                display: "double",
-                gradients: true,
-                elevation: 50,
-                duration: 900
-            });
-        };
-    }
-
     $(function () {
-        $("#next-page").on("click", () => $("#flipbook").turn("next"));
-        $("#prev-page").on("click", () => $("#flipbook").turn("previous"));
-    });
 
-    window.addEventListener("load", initFlipbook);
+        const totalPages = 13;
+        const flipbook = $("#flipbook");
+
+        for (let i = 1; i <= totalPages; i++) {
+            const isHard = (i === 1 || i === totalPages) ? "hard" : "";
+            flipbook.append(`<div class="page ${isHard}"><img src="${i}.jpg" alt="Pagina ${i}"></div>`);
+        }
+
+        flipbook.turn({
+            width: 1000,
+            height: 650,
+            autoCenter: false,
+            display: "double",
+            gradients: true,
+            elevation: 50,
+            duration: 900
+        });
+
+
+        $("#next-page").click(() => flipbook.turn("next"));
+        $("#prev-page").click(() => flipbook.turn("previous"));
+
+        document.addEventListener("touchstart", function(){}, true);
+    });
 </script>
 
 </body>
