@@ -35,14 +35,16 @@
             text-shadow: 0 0 15px black;
         }
 
+
         .flipbook-wrapper {
-            width: 100%;
-            height: 750px;
+            width: 80%;
+            max-width: 1500px;
+            aspect-ratio: 2382 / 1611;
+            margin: 40px auto 0;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            margin-top: 40px;
         }
 
         #flipbook {
@@ -61,7 +63,6 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            background: #000;
             -webkit-user-drag: none;
             user-select: none;
         }
@@ -78,13 +79,12 @@
             padding: 12px 30px;
             margin: 0 15px;
             font-size: 18px;
-            font-family: inherit;
             cursor: pointer;
         }
+
         .book-button:hover {
             background: #ccc;
         }
-
 
         footer {
             text-align: center;
@@ -100,6 +100,7 @@
             vertical-align: middle;
             transition: 0.2s ease;
         }
+
         .insta-img:hover {
             filter: brightness(0.7);
         }
