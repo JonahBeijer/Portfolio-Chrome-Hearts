@@ -6,8 +6,7 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
-    <!-- Turn.js -->
+    <!-- Turn.js vanaf GitHub -->
     <script src="https://raw.githack.com/blasten/turn.js/master/turn.min.js"></script>
 
     <style>
@@ -46,7 +45,7 @@
             height: auto;
             text-align: center;
             margin: 60px 0;
-            padding-bottom: 60px;
+            padding-bottom: 20px;
         }
 
         #flipbook {
@@ -71,6 +70,27 @@
             -webkit-user-drag: none;
         }
 
+        .book-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .book-button {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .book-button:hover {
+            background: #ccc;
+        }
+
         footer {
             text-align: center;
             padding: 40px;
@@ -82,16 +102,15 @@
 
 <header>CHROME HEARTS</header>
 
-<!-- FIXED: hero DIV PROPERLY CLOSED -->
+<!-- Hero is nu netjes gesloten -->
 <div class="hero"></div>
 
 <section class="flipbook-container">
     <div id="flipbook">
-
-        <!-- Hard cover -->
+        <!-- Voorcover -->
         <div class="page hard"><img src="1.jpg" alt="Cover"></div>
 
-        <!-- Inside pages -->
+        <!-- Binnenkanten -->
         <div class="page"><img src="2.jpg" alt="Page 2"></div>
         <div class="page"><img src="3.jpg" alt="Page 3"></div>
         <div class="page"><img src="4.jpg" alt="Page 4"></div>
@@ -100,27 +119,48 @@
         <div class="page"><img src="7.jpg" alt="Page 7"></div>
         <div class="page"><img src="8.jpg" alt="Page 8"></div>
 
-        <!-- Hard back cover -->
+        <!-- Achterkant -->
         <div class="page hard"><img src="9.jpg" alt="Back Cover"></div>
+    </div>
 
+    <!-- Extra: duidelijke knoppen -->
+    <div class="book-controls">
+        <button class="book-button" id="prev-page">← Vorige</button>
+        <button class="book-button" id="next-page">Volgende →</button>
     </div>
 </section>
 
 <footer>© 2025 Chrome Hearts — Portfolio by Iris Draai</footer>
 
 <script>
-    $(document).ready(function () {
+    $(function () {
+        var $flipbook = $("#flipbook");
 
-        $("#flipbook").turn({
+        // Init Turn.js
+        $flipbook.turn({
             width: 1200,
             height: 600,
             autoCenter: true,
             display: "double",
             elevation: 50,
             gradients: true,
-            duration: 1200
+            duration: 1000
         });
 
+        // Debug: log pagina bij verandering
+        $flipbook.bind("turned", function (e, page) {
+            console.log("Nu op pagina:", page);
+        });
+
+        // Knop: volgende
+        $("#next-page").on("click", function () {
+            $flipbook.turn("next");
+        });
+
+        // Knop: vorige
+        $("#prev-page").on("click", function () {
+            $flipbook.turn("previous");
+        });
     });
 </script>
 
