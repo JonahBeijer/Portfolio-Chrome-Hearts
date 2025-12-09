@@ -45,10 +45,6 @@
             overflow: hidden;
         }
 
-        #flipbook {
-            transform-origin: top center;
-        }
-
         #flipbook img {
             width: 100%;
             height: 100%;
@@ -130,6 +126,8 @@
 
 <script>
 
+    const PAGE_SCALE = 0.30;
+
     function initFlipbook() {
         const sample = new Image();
         sample.src = "1.jpg";
@@ -139,43 +137,31 @@
             const imgW = sample.width;
             const imgH = sample.height;
 
+            const pageW = imgW * PAGE_SCALE;
+            const pageH = imgH * PAGE_SCALE;
+
             const flipbook = $("#flipbook");
 
             $(".page").css({
-                width: imgW + "px",
-                height: imgH + "px"
+                width: pageW + "px",
+                height: pageH + "px"
             });
 
             flipbook.css({
-                width: imgW * 2 + "px",
-                height: imgH + "px"
+                width: pageW * 2 + "px",
+                height: pageH + "px"
             });
 
             flipbook.turn({
-                width: imgW * 2,
-                height: imgH,
+                width: pageW * 2,
+                height: pageH,
                 autoCenter: true,
                 display: "double",
                 gradients: true,
                 elevation: 50,
                 duration: 900
             });
-
-            scaleFlipbook();
         };
-    }
-
-
-    function scaleFlipbook() {
-        const flipbook = document.getElementById("flipbook");
-        const wrapper = document.querySelector(".flipbook-wrapper");
-
-        const scaleX = wrapper.offsetWidth / flipbook.offsetWidth;
-        const scaleY = wrapper.offsetHeight / flipbook.offsetHeight;
-
-        const scale = Math.min(scaleX, scaleY);
-
-        flipbook.style.transform = "scale(" + scale + ")";
     }
 
     $(function () {
@@ -184,7 +170,6 @@
     });
 
     window.addEventListener("load", initFlipbook);
-    window.addEventListener("resize", scaleFlipbook);
 </script>
 
 </body>
