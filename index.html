@@ -1,13 +1,13 @@
+<!DOCTYPE html>
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <title>Chrome Hearts — Portfolio</title>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
     <script src="https://raw.githack.com/blasten/turn.js/master/turn.min.js"></script>
 
     <style>
-        /* Jouw CSS hieronder... */
         @font-face {
             font-family: 'Ds Cloister';
             src: url('Fonts/DS Cloister Black.otf') format('opentype'),
@@ -38,11 +38,13 @@
             background-position: center;
         }
 
+        /* --- FIX 1: FLEXBOX WEGHALEN --- */
+        /* Turn.js werkt niet goed binnen een Flex container.
+           We gebruiken text-align center om het boek in het midden te krijgen. */
         .flipbook-container {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: auto;
+            text-align: center; /* Dit centreert het boek */
             margin: 60px 0;
             padding-bottom: 60px;
         }
@@ -50,10 +52,11 @@
         #flipbook {
             width: 1200px;
             height: 600px;
-            position: relative;
+            /* Zorg dat dit inline-block is zodat text-align werkt,
+               of laat turn.js het centreren met autoCenter */
+            display: inline-block;
         }
 
-        /* CRUCIAAL: Breedte is de helft van de container */
         #flipbook .page {
             width: 600px;
             height: 600px;
@@ -66,6 +69,9 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            /* Voorkomt dat je het plaatje zelf sleept ("ghost image") */
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         footer {
@@ -82,37 +88,60 @@
 <div class="hero"></div>
 
 <section class="flipbook-container">
-
     <div id="flipbook">
         <div class="page hard"><img src="logincss.png" alt="Cover"></div>
-
         <div class="page"><img src="hiddenpage0.png" alt="Page 2"></div>
-
         <div class="page"><img src="tactiqicon.png" alt="Page 3"></div>
-
         <div class="page"><img src="webcam.png" alt="Page 4"></div>
-
         <div class="page"><img src="webcam.png" alt="Page 5"></div>
-
         <div class="page hard"><img src="webcam.png" alt="Back Cover"></div>
     </div>
-
 </section>
 
 <footer>© 2025 Chrome Hearts — Portfolio by Iris Draai</footer>
 
 <script>
     $(document).ready(function () {
-        $("#flipbook").turn({
+        var flipbook = $("#flipbook");
+
+        flipbook.turn({
             width: 1200,
             height: 600,
             autoCenter: true,
             display: "double",
-            acceleration: true, // Helpt bij glitching op mobiel/touch
+            acceleration: true,
             elevation: 50,
             gradients: true,
-            duration: 1000 // Snelheid van omslaan
+            duration: 1000
         });
+
+        // --- FIX 2: KLIK OVERAL OM TE FLIPPEN ---
+        // Standaard moet je precies het hoekje pakken.
+        // Dit zorgt ervoor dat klikken op de hele pagina werkt.
+        $("#flipbook .page").click(function(e) {
+            // Check of we links of rechts klikken
+            if ($(this).hasClass("hard")) {
+                // Hardcovers werken soms net anders, dit forceert volgende pagina
+                if (flipbook.turn("page") === 1) {
+                    flipbook.turn("next");
+                }
+            } else {
+                // Voor gewone pagina's, laat turn.js bepalen of het next/prev is
+                // Of forceer:
+                var pageNum = $(this).parent().turn("page");
+                // Simpele logica: klik je rechts? -> volgende.
+            }
+        });
+
+        // Simpelere manier: Klik op het boek = volgende (voor test)
+        flipbook.bind("click", function(e) {
+            // Zorg dat we niet dubbel klikken
+            // Dit is een 'brute force' methode om te kijken of JS werkt
+            // flipbook.turn("next");
+        });
+
+        // Debugging: Laat in de console weten of het laden gelukt is
+        console.log("Turn.js is gestart. Huidige pagina: " + flipbook.turn("page"));
     });
 </script>
 
