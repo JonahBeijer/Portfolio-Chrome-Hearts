@@ -6,10 +6,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
     <script src="https://raw.githack.com/blasten/turn.js/master/turn.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         @font-face {
@@ -38,22 +35,22 @@
             text-shadow: 0 0 15px black;
         }
 
-        .flipbook-container {
+        .flipbook-wrapper {
             width: 100%;
             display: flex;
             justify-content: center;
+            overflow: hidden;
             margin: 80px 0;
         }
 
         #flipbook {
             width: 1191px;
             height: 1611px;
-            display: block;
-            margin: 0 auto;
+            transform-origin: top center;
         }
 
         #flipbook .page {
-            width: 595px;
+            width: 595.5px;
             height: 1611px;
             background: #000;
         }
@@ -62,14 +59,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
             -webkit-user-drag: none;
             user-select: none;
         }
 
         .book-controls {
-            margin-top: 30px;
             text-align: center;
+            margin-top: 30px;
         }
 
         .book-button {
@@ -82,6 +78,7 @@
             font-family: inherit;
             cursor: pointer;
         }
+
         .book-button:hover {
             background: #ccc;
         }
@@ -105,17 +102,13 @@
         .insta-img:hover {
             filter: brightness(0.7);
         }
-
-        .insta-icon:hover {
-            color: #aaaaaa;
-        }
     </style>
 </head>
 <body>
 
 <header>CHROME HEARTS</header>
 
-<section class="flipbook-container">
+<section class="flipbook-wrapper">
     <div id="flipbook">
         <div class="page hard"><img src="1.jpg" alt=""></div>
 
@@ -138,7 +131,7 @@
 
 <footer>
     © 2025 Chrome Hearts — Portfolio by Iris Draai
-    <a href="https://instagram.com/irisdraai" class="insta-icon" target="_blank">
+    <a href="https://instagram.com/irisdraai" target="_blank">
         <img src="images/ch-instagram.webp" alt="Instagram" class="insta-img">
     </a>
 </footer>
@@ -163,6 +156,17 @@
             $("#flipbook").turn("previous");
         });
     });
+
+    function scaleBook() {
+        const book = document.getElementById("flipbook");
+        const wrapperWidth = document.querySelector(".flipbook-wrapper").offsetWidth;
+
+        const scale = wrapperWidth / 1191;
+        book.style.transform = "scale(" + scale + ")";
+    }
+
+    window.addEventListener("resize", scaleBook);
+    window.addEventListener("load", scaleBook);
 </script>
 
 </body>
