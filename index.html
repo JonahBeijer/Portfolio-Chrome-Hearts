@@ -114,24 +114,10 @@
             duration: 1000
         });
 
-
-        $("#flipbook .page").click(function(e) {
-
-            if ($(this).hasClass("hard")) {
-                if (flipbook.turn("page") === 1) {
-                    flipbook.turn("next");
-                }
-            } else {
-                var pageNum = $(this).parent().turn("page");
-            }
-        });
-
-        flipbook.bind("click", function(e) {
-        });
-
         console.log("Turn.js is gestart. Huidige pagina: " + flipbook.turn("page"));
     });
 </script>
+
 
 </body>
 </html>
