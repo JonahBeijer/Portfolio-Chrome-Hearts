@@ -5,7 +5,7 @@
     <title>Chrome Hearts — Portfolio</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <!-- Libraries -->
+
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://raw.githack.com/blasten/turn.js/master/turn.min.js"></script>
 
@@ -35,7 +35,7 @@
             z-index: 10;
         }
 
-        /* Wrapper om alles te centreren */
+
         .flipbook-wrapper {
             width: 100%;
             display: flex;
@@ -43,10 +43,10 @@
             margin-top: 20px;
         }
 
-        /* Flipbook (nu responsive met max-width + scaling) */
+
         #flipbook {
             width: 1000px;
-            height: 650px;
+            height: 720px;
             transform-origin: top center;
         }
 
@@ -77,6 +77,7 @@
             font-size: 18px;
             cursor: pointer;
             transition: 0.2s ease;
+            border-radius: 12px;
         }
 
         .book-button:hover {
@@ -98,19 +99,18 @@
         }
 
         .insta-img:hover {
-            filter: brightness(0.7);
+            filter: brightness(0.6);
         }
 
-        /* 🔥 Responsive scaling */
         @media (max-width: 1200px) {
             #flipbook {
-                transform: scale(0.8);
+                transform: scale(0.7);
             }
         }
 
         @media (max-width: 900px) {
             #flipbook {
-                transform: scale(0.6);
+                transform: scale(0.5);
             }
         }
     </style>
@@ -124,8 +124,8 @@
 </section>
 
 <div class="book-controls">
-    <button class="book-button" id="prev-page">← Vorige</button>
-    <button class="book-button" id="next-page">Volgende →</button>
+    <button class="book-button" id="prev-page">← Previous</button>
+    <button class="book-button" id="next-page">Next →</button>
 </div>
 
 <footer>
@@ -138,7 +138,7 @@
 <script>
     $(function () {
 
-        const totalPages = 13;
+        const totalPages = 24;
         const flipbook = $("#flipbook");
 
         for (let i = 1; i <= totalPages; i++) {
@@ -148,7 +148,7 @@
 
         flipbook.turn({
             width: 1000,
-            height: 650,
+            height: 720,
             autoCenter: false,
             display: "double",
             gradients: true,

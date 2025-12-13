@@ -9,5 +9,6 @@
     <orderEntry type="library" name="turn.js" level="application" />
     <orderEntry type="library" name="jquery-2.2.4" level="application" />
     <orderEntry type="library" name="turn" level="application" />
+    <orderEntry type="library" name="turn.html4" level="application" />
   </component>
 </module>
