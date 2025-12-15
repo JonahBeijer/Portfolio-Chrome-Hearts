@@ -5,34 +5,75 @@
     <title>Chrome Hearts — Portfolio</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://raw.githack.com/blasten/turn.js/master/turn.min.js"></script>
 
     <style>
         @font-face {
             font-family: 'Ds Cloister';
-            src: url('Fonts/DS Cloister Black.otf') format('opentype'),
-            url('Fonts/DS Cloister Black.ttf') format('truetype');
+            src: url('Fonts/DS Cloister Black.otf') format('opentype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Ds Cloister', serif;
-            color: white;
             background: url('images/bg-ch.jpg') center/cover fixed;
-            -webkit-font-smoothing: antialiased;
+            color: #717171;
+            height: 100vh;
+            overflow-x: hidden;
         }
 
-        header {
-            text-align: center;
-            padding: 50px 0 20px;
-            font-size: 60px;
-            letter-spacing: 3px;
-            text-shadow: 0 0 15px black;
-            position: relative;
-            z-index: 10;
+        a {
+            text-decoration: none;
+            color: #717171;
+        }
+
+
+        .top-left-icon {
+            width: 48px;
+            height: auto;
+
+        }
+
+
+        .top-bar {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            z-index: 1000;
+            font-size: 28px;
+            letter-spacing: 1.6px;
+        }
+
+        .top-left {
+            height: 52px;
+            width: auto;
+        }
+
+        .top-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .top-center img {
+            margin-top: 45px;
+            height: 94px;
+            width: auto;
+        }
+
+        .top-right {
+            text-transform: uppercase;
         }
 
 
@@ -40,14 +81,13 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 70px; /* LAGER */
+            margin-bottom: 70px;
         }
 
-
         #flipbook {
-            width: 1000px;
-            height: 720px;
-            transform-origin: top center;
+            width: 1080px;
+            height: 780px;
         }
 
         #flipbook .page,
@@ -63,104 +103,148 @@
             user-select: none;
         }
 
+
+
         .book-controls {
             text-align: center;
-            margin-top: 25px;
+            margin-bottom: 100px;
+            font-size: 15px;
+            letter-spacing: 2.2px;
         }
 
         .book-button {
-            background: white;
-            color: black;
-            border: none;
-            padding: 12px 30px;
-            margin: 0 15px;
-            font-size: 18px;
+            background: none;
+            border-radius: 1px;
+            color: #717171;
             cursor: pointer;
-            transition: 0.2s ease;
-            border-radius: 12px;
+            padding: 12px 34px;
+            text-transform: uppercase;
         }
 
         .book-button:hover {
-            background: #cfcfcf;
+            opacity: 0.6;
         }
 
-        footer {
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-            opacity: 0.85;
+
+        .footer {
+            margin-bottom: 65px;
+            left: 0;
+            width: 100%;
+            padding: 65px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 24px;
+            letter-spacing: 1.4px;
+            color: #717171;
+            z-index: 1000;
         }
 
-        .insta-img {
-            width: 32px;
-            height: 32px;
-            vertical-align: middle;
-            transition: 0.2s ease;
+        .footer-left a {
+            margin-right: 26px;
         }
 
-        .insta-img:hover {
-            filter: brightness(0.6);
+        .footer-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.75;
         }
+
+
+
+        .footer-right a {
+            margin-left: 26px;
+        }
+
 
         @media (max-width: 1200px) {
             #flipbook {
-                transform: scale(0.7);
+                transform: scale(0.8);
             }
         }
 
         @media (max-width: 900px) {
             #flipbook {
-                transform: scale(0.5);
+                transform: scale(0.6);
             }
         }
     </style>
 </head>
 <body>
 
-<header>CHROME HEARTS</header>
+
+<div class="top-bar">
+    <div class="top-left">
+        <img class="top-left-icon" src="images/cross.svg" alt="Chrome Hearts">
+    </div>
+
+    <div class="top-center">
+        <img src="images/Chrome Hearts-scroll.png" alt="Chrome Hearts">
+    </div>
+
+    <div class="top-right">
+        <a href="#">LOGIN</a> / <a href="#">BAG 0</a>
+    </div>
+</div>
+
 
 <section class="flipbook-wrapper">
     <div id="flipbook"></div>
 </section>
 
+
 <div class="book-controls">
-    <button class="book-button" id="prev-page">← Previous</button>
-    <button class="book-button" id="next-page">Next →</button>
+    <button class="book-button" id="prev-page">PREVIOUS</button>
+    <button class="book-button" id="next-page">NEXT</button>
 </div>
 
-<footer>
-    © 2025 Chrome Hearts — Portfolio by Iris Draai
-    <a href="https://instagram.com/irisdraai" target="_blank">
-        <img src="images/ch-instagram.webp" alt="Instagram" class="insta-img">
-    </a>
+
+<footer class="footer">
+    <div class="footer-left">
+        <a href="#">TERMS</a>
+        <a href="#">CA SUPPLY CHAIN ACT</a>
+        <a href="#">PRIVACY</a>
+    </div>
+
+    <div class="footer-center">
+        © 2025 CHROME HEARTS LLC. ALL RIGHTS RESERVED
+    </div>
+
+    <div class="footer-right">
+        <a href="#">GENERAL</a>
+        <a href="#">CONTACT</a>
+        <span style="margin-left:26px;">NL 🇳🇱</span>
+    </div>
 </footer>
+
 
 <script>
     $(function () {
-
         const totalPages = 24;
         const flipbook = $("#flipbook");
 
         for (let i = 1; i <= totalPages; i++) {
             const isHard = (i === 1 || i === totalPages) ? "hard" : "";
-            flipbook.append(`<div class="page ${isHard}"><img src="${i}.jpg" alt="Pagina ${i}"></div>`);
+            flipbook.append(`
+                <div class="page ${isHard}">
+                    <img src="${i}.jpg" alt="Page ${i}">
+                </div>
+            `);
         }
 
         flipbook.turn({
-            width: 1000,
-            height: 720,
-            autoCenter: false,
+            width: 1080,
+            height: 780,
             display: "double",
+            autoCenter: true,
             gradients: true,
             elevation: 50,
             duration: 900
         });
 
-
         $("#next-page").click(() => flipbook.turn("next"));
         $("#prev-page").click(() => flipbook.turn("previous"));
-
-        document.addEventListener("touchstart", function(){}, true);
     });
 </script>
 
