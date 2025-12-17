@@ -39,6 +39,7 @@
             color: inherit;
         }
 
+
         .top-bar {
             flex: 0 0 12vh;
             min-height: 70px;
@@ -65,6 +66,7 @@
             height: clamp(40px, 4vh, 64px);
         }
 
+
         .main {
             flex: 1 1 auto;
             min-height: 0;
@@ -79,6 +81,31 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
+        }
+
+
+        .flipbook-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 85%;
+            pointer-events: none;
+            opacity: 0;
+            background: linear-gradient(
+                    to right,
+                    rgba(0,0,0,0.35),
+                    rgba(0,0,0,0.08),
+                    rgba(255,255,255,0.15)
+            );
+            transition: opacity 0.25s ease;
+        }
+
+        .flipbook-wrapper.show-fold::after {
+            opacity: 1;
         }
 
 
@@ -90,18 +117,11 @@
             box-shadow: none !important;
         }
 
-        #flipbook {
-            background: transparent;
-        }
-
-        #flipbook .page-wrapper {
-            background: transparent !important;
-        }
-
+        #flipbook,
+        #flipbook .page-wrapper,
         #flipbook .page {
             background: transparent !important;
         }
-
 
         #flipbook img {
             width: 100%;
@@ -112,6 +132,7 @@
             user-select: none;
         }
 
+
         .book-controls {
             display: flex;
             justify-content: center;
@@ -119,18 +140,24 @@
             padding: 1vh 0;
             font-size: clamp(12px, 1vw, 15px);
             letter-spacing: 2.2px;
+            margin-top: 20px;
+
+
         }
 
         .book-button {
             background: none;
-            border: none;
             cursor: pointer;
             text-transform: uppercase;
+            border-radius: 10px;
+            border: 1px solid black;
+            padding: 10px;
         }
 
         .book-button:hover {
             opacity: 0.6;
         }
+
 
         .footer {
             flex: 0 0 10vh;
@@ -144,9 +171,8 @@
             letter-spacing: 1.4px;
         }
 
-        .footer-left a {
-            margin-right: 26px;
-        }
+        .footer-left a { margin-right: 26px; }
+        .footer-right a { margin-left: 26px; }
 
         .footer-center {
             position: absolute;
@@ -154,16 +180,11 @@
             transform: translateX(-50%);
             opacity: 0.75;
         }
-
-        .footer-right a {
-            margin-left: 26px;
-        }
     </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="top-bar">
     <img class="top-left-icon" src="images/cross.svg" alt="">
     <div class="top-center">
@@ -174,7 +195,6 @@
     </div>
 </div>
 
-<!-- MAIN -->
 <main class="main">
     <div class="flipbook-wrapper">
         <div id="flipbook"></div>
@@ -186,7 +206,6 @@
     </div>
 </main>
 
-<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-left">
         <a href="#">TERMS</a>
@@ -205,15 +224,14 @@
     </div>
 </footer>
 
-<!-- SCRIPT -->
 <script>
     $(function () {
         const flipbook = $("#flipbook");
+        const wrapper = document.querySelector('.flipbook-wrapper');
         const totalPages = 24;
 
         const pageRatio = 3509 / 2480;
 
-        /* pagina’s toevoegen */
         for (let i = 1; i <= totalPages; i++) {
             const hard = (i === 1 || i === totalPages) ? "hard" : "";
             flipbook.append(`
@@ -224,7 +242,6 @@
         }
 
         function resizeBook() {
-            const wrapper = document.querySelector('.flipbook-wrapper');
             const maxW = wrapper.clientWidth;
             const maxH = wrapper.clientHeight;
             if (!maxW || !maxH) return;
@@ -232,7 +249,6 @@
             let pageHeight = maxH;
             let pageWidth  = pageHeight / pageRatio;
 
-            /* spread */
             let bookWidth  = pageWidth * 2;
             let bookHeight = pageHeight;
 
@@ -251,6 +267,21 @@
             gradients: false,
             elevation: 0,
             duration: 800
+        });
+
+        flipbook.on("turning", function () {
+            wrapper.classList.remove("show-fold");
+        });
+
+        flipbook.on("turned", function () {
+            const page = flipbook.turn("page");
+            const total = flipbook.turn("pages");
+
+            if (page !== 1 && page !== total) {
+                wrapper.classList.add("show-fold");
+            } else {
+                wrapper.classList.remove("show-fold");
+            }
         });
 
         resizeBook();
