@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Chrome Hearts — Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://raw.githack.com/blasten/turn.js/master/turn.min.js"></script>
@@ -14,50 +13,46 @@
             src: url('Fonts/DS Cloister Black.otf') format('opentype');
         }
 
-        * {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Ds Cloister', serif;
-            background: url('images/bg-ch.jpg') center/cover fixed;
+            background: url('images/bg-ch.jpg') center / cover no-repeat;
             color: #717171;
-            height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         a {
             text-decoration: none;
-            color: #717171;
+            color: inherit;
         }
-
-
-        .top-left-icon {
-            width: 48px;
-            height: auto;
-
-        }
-
 
         .top-bar {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 110px;
+            flex: 0 0 12vh;
+            min-height: 70px;
+            max-height: 120px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 50px;
-            z-index: 1000;
-            font-size: 28px;
+            padding: 0 4vw;
+            font-size: clamp(12px, 1vw, 16px);
             letter-spacing: 1.6px;
         }
 
-        .top-left {
-            height: 52px;
-            width: auto;
+        .top-left-icon {
+            width: clamp(22px, 2vw, 32px);
         }
 
         .top-center {
@@ -67,57 +62,69 @@
         }
 
         .top-center img {
-            margin-top: 45px;
-            height: 94px;
-            width: auto;
+            height: clamp(40px, 4vh, 64px);
         }
 
-        .top-right {
-            text-transform: uppercase;
+        .main {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
         }
-
 
         .flipbook-wrapper {
-            width: 100%;
+            flex: 1;
+            min-height: 0;
             display: flex;
+            align-items: center;
             justify-content: center;
-            margin-top: 70px; /* LAGER */
-            margin-bottom: 70px;
+            overflow: hidden;
+        }
+
+
+        #flipbook,
+        #flipbook * {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            box-shadow: none !important;
         }
 
         #flipbook {
-            width: 1080px;
-            height: 780px;
-        }
-
-        #flipbook .page,
-        #flipbook .hard {
             background: transparent;
         }
+
+        #flipbook .page-wrapper {
+            background: transparent !important;
+        }
+
+        #flipbook .page {
+            background: transparent !important;
+        }
+
 
         #flipbook img {
             width: 100%;
             height: 100%;
+            display: block;
             object-fit: cover;
             pointer-events: none;
             user-select: none;
         }
 
-
-
         .book-controls {
-            text-align: center;
-            margin-bottom: 100px;
-            font-size: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 4vw;
+            padding: 1vh 0;
+            font-size: clamp(12px, 1vw, 15px);
             letter-spacing: 2.2px;
         }
 
         .book-button {
             background: none;
-            border-radius: 1px;
-            color: #717171;
+            border: none;
             cursor: pointer;
-            padding: 12px 34px;
             text-transform: uppercase;
         }
 
@@ -125,19 +132,16 @@
             opacity: 0.6;
         }
 
-
         .footer {
-            margin-bottom: 65px;
-            left: 0;
-            width: 100%;
-            padding: 65px 50px;
+            flex: 0 0 10vh;
+            min-height: 60px;
+            max-height: 100px;
+            padding: 0 4vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 24px;
+            font-size: clamp(12px, 1vw, 16px);
             letter-spacing: 1.4px;
-            color: #717171;
-            z-index: 1000;
         }
 
         .footer-left a {
@@ -151,55 +155,38 @@
             opacity: 0.75;
         }
 
-
-
         .footer-right a {
             margin-left: 26px;
         }
-
-
-        @media (max-width: 1200px) {
-            #flipbook {
-                transform: scale(0.8);
-            }
-        }
-
-        @media (max-width: 900px) {
-            #flipbook {
-                transform: scale(0.6);
-            }
-        }
     </style>
 </head>
+
 <body>
 
-
+<!-- HEADER -->
 <div class="top-bar">
-    <div class="top-left">
-        <img class="top-left-icon" src="images/cross.svg" alt="Chrome Hearts">
-    </div>
-
+    <img class="top-left-icon" src="images/cross.svg" alt="">
     <div class="top-center">
-        <img src="images/Chrome Hearts-scroll.png" alt="Chrome Hearts">
+        <img src="images/Chrome Hearts-scroll.png" alt="">
     </div>
-
-    <div class="top-right">
+    <div>
         <a href="#">LOGIN</a> / <a href="#">BAG 0</a>
     </div>
 </div>
 
+<!-- MAIN -->
+<main class="main">
+    <div class="flipbook-wrapper">
+        <div id="flipbook"></div>
+    </div>
 
-<section class="flipbook-wrapper">
-    <div id="flipbook"></div>
-</section>
+    <div class="book-controls">
+        <button class="book-button" id="prev">PREVIOUS</button>
+        <button class="book-button" id="next">NEXT</button>
+    </div>
+</main>
 
-
-<div class="book-controls">
-    <button class="book-button" id="prev-page">PREVIOUS</button>
-    <button class="book-button" id="next-page">NEXT</button>
-</div>
-
-
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-left">
         <a href="#">TERMS</a>
@@ -214,37 +201,63 @@
     <div class="footer-right">
         <a href="#">GENERAL</a>
         <a href="#">CONTACT</a>
-        <span style="margin-left:26px;">NL 🇳🇱</span>
+        <span style="margin-left:32px;">NL 🇳🇱</span>
     </div>
 </footer>
 
-
+<!-- SCRIPT -->
 <script>
     $(function () {
-        const totalPages = 24;
         const flipbook = $("#flipbook");
+        const totalPages = 24;
 
+        const pageRatio = 3509 / 2480;
+
+        /* pagina’s toevoegen */
         for (let i = 1; i <= totalPages; i++) {
-            const isHard = (i === 1 || i === totalPages) ? "hard" : "";
+            const hard = (i === 1 || i === totalPages) ? "hard" : "";
             flipbook.append(`
-                <div class="page ${isHard}">
-                    <img src="${i}.jpg" alt="Page ${i}">
-                </div>
-            `);
+            <div class="page ${hard}">
+                <img src="${i}.jpg" alt="">
+            </div>
+        `);
+        }
+
+        function resizeBook() {
+            const wrapper = document.querySelector('.flipbook-wrapper');
+            const maxW = wrapper.clientWidth;
+            const maxH = wrapper.clientHeight;
+            if (!maxW || !maxH) return;
+
+            let pageHeight = maxH;
+            let pageWidth  = pageHeight / pageRatio;
+
+            /* spread */
+            let bookWidth  = pageWidth * 2;
+            let bookHeight = pageHeight;
+
+            if (bookWidth > maxW) {
+                bookWidth  = maxW;
+                pageWidth  = bookWidth / 2;
+                bookHeight = pageWidth * pageRatio;
+            }
+
+            flipbook.turn("size", bookWidth, bookHeight);
         }
 
         flipbook.turn({
-            width: 1080,
-            height: 780,
             display: "double",
             autoCenter: true,
-            gradients: true,
-            elevation: 50,
-            duration: 900
+            gradients: false,
+            elevation: 0,
+            duration: 800
         });
 
-        $("#next-page").click(() => flipbook.turn("next"));
-        $("#prev-page").click(() => flipbook.turn("previous"));
+        resizeBook();
+        window.addEventListener("resize", resizeBook);
+
+        $("#next").click(() => flipbook.turn("next"));
+        $("#prev").click(() => flipbook.turn("previous"));
     });
 </script>
 
