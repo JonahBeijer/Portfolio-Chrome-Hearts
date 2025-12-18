@@ -13,9 +13,7 @@
             src: url('Fonts/DS Cloister Black.otf') format('opentype');
         }
 
-        *,
-        *::before,
-        *::after {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -34,11 +32,7 @@
             flex-direction: column;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
+        a { text-decoration: none; color: inherit; }
 
         .top-bar {
             flex: 0 0 12vh;
@@ -50,11 +44,10 @@
             padding: 0 4vw;
             font-size: clamp(12px, 1vw, 16px);
             letter-spacing: 1.6px;
+            z-index: 100;
         }
 
-        .top-left-icon {
-            width: clamp(22px, 2vw, 32px);
-        }
+        .top-left-icon { width: clamp(22px, 2vw, 32px); }
 
         .top-center {
             position: absolute;
@@ -62,16 +55,14 @@
             transform: translateX(-50%);
         }
 
-        .top-center img {
-            height: clamp(40px, 4vh, 64px);
-        }
-
+        .top-center img { height: clamp(40px, 4vh, 64px); }
 
         .main {
             flex: 1 1 auto;
             min-height: 0;
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
 
         .flipbook-wrapper {
@@ -80,56 +71,49 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
             position: relative;
+            perspective: 2000px;
         }
 
 
-        .flipbook-wrapper::after {
-            content: "";
+        #book-spine {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 15px;
+            width: 0px;
+            height: 0px;
 
-            height: var(--book-height);
+            transform: translate(-50%, -50%);
 
             pointer-events: none;
+            z-index: 1000;
             opacity: 0;
+
+            mix-blend-mode: multiply;
+
+
             background: linear-gradient(
                     to right,
-                    rgba(0,0,0,0.25) 0%,
-                    rgba(0,0,0,0.1) 35%,
-                    rgba(0,0,0,0.05) 50%,
-                    rgba(0,0,0,0.1) 65%,
-                    rgba(0,0,0,0.25) 100%
+                    rgba(0,0,0,0) 46%,
+                    rgba(0,0,0,0.05) 48%,
+                    rgba(0,0,0,0.3) 50%,
+                    rgba(0,0,0,0.05) 52%,
+                    rgba(0,0,0,0) 54%
             );
-            transition: opacity 0.25s ease;
-            z-index: 10;
+
+            transition: opacity 0.4s ease, transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
-        .flipbook-wrapper.show-fold::after {
+        #book-spine.show {
             opacity: 1;
-        }
-
-
-        #flipbook,
-        #flipbook * {
-            margin: 0 !important;
-            padding: 0 !important;
-            border: 0 !important;
-            box-shadow: none !important;
         }
 
         #flipbook {
             transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
-        #flipbook,
-        #flipbook .page-wrapper,
         #flipbook .page {
-            background: transparent !important;
+            background-color: #fff;
         }
 
         #flipbook img {
@@ -141,15 +125,13 @@
             user-select: none;
         }
 
-
         .book-controls {
             display: flex;
             justify-content: center;
             gap: 4vw;
-            padding: 1vh 0;
+            padding: 2vh 0;
             font-size: clamp(12px, 1vw, 15px);
             letter-spacing: 2.2px;
-            margin-top: 20px;
         }
 
         .book-button {
@@ -159,13 +141,14 @@
             text-transform: uppercase;
             border-radius: 10px;
             border: 1px solid black;
-            padding: 10px;
+            padding: 10px 20px;
+            transition: 0.3s;
         }
 
         .book-button:hover {
+            background: rgba(0,0,0,0.05);
             opacity: 0.6;
         }
-
 
         .footer {
             flex: 0 0 10vh;
@@ -175,18 +158,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: clamp(12px, 1vw, 16px);
+            font-size: clamp(11px, 0.9vw, 14px);
             letter-spacing: 1.4px;
-        }
-
-        .footer-left a { margin-right: 26px; }
-        .footer-right a { margin-left: 26px; }
-
-        .footer-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0.75;
         }
     </style>
 </head>
@@ -205,6 +178,7 @@
 
 <main class="main">
     <div class="flipbook-wrapper">
+        <div id="book-spine"></div>
         <div id="flipbook"></div>
     </div>
 
@@ -220,11 +194,9 @@
         <a href="#">CA SUPPLY CHAIN ACT</a>
         <a href="#">PRIVACY</a>
     </div>
-
     <div class="footer-center">
         © 2025 CHROME HEARTS LLC. ALL RIGHTS RESERVED
     </div>
-
     <div class="footer-right">
         <a href="#">GENERAL</a>
         <a href="#">CONTACT</a>
@@ -235,28 +207,27 @@
 <script>
     $(function () {
         const flipbook = $("#flipbook");
+        const spine = $("#book-spine");
         const wrapper = document.querySelector('.flipbook-wrapper');
         const totalPages = 24;
-
         const pageRatio = 3509 / 2480;
 
         for (let i = 1; i <= totalPages; i++) {
             const hard = (i === 1 || i === totalPages) ? "hard" : "";
             flipbook.append(`
-            <div class="page ${hard}">
-                <img src="${i}.jpg" alt="">
-            </div>
-        `);
+                <div class="page ${hard}">
+                    <img src="${i}.jpg" alt="Pagina ${i}">
+                </div>
+            `);
         }
 
         function resizeBook() {
-            const maxW = wrapper.clientWidth;
-            const maxH = wrapper.clientHeight;
+            const maxW = wrapper.clientWidth * 0.9;
+            const maxH = wrapper.clientHeight * 0.9;
             if (!maxW || !maxH) return;
 
             let pageHeight = maxH;
             let pageWidth  = pageHeight / pageRatio;
-
             let bookWidth  = pageWidth * 2;
             let bookHeight = pageHeight;
 
@@ -268,48 +239,56 @@
 
             flipbook.turn("size", bookWidth, bookHeight);
 
-            wrapper.style.setProperty('--book-height', bookHeight + 'px');
+            spine.css({
+                width: bookWidth + "px",
+                height: bookHeight + "px"
+            });
         }
 
         function checkPosition(page) {
+            const total = flipbook.turn("pages");
+
+
+
             if (page === 1) {
                 flipbook.css("transform", "translateX(-25%)");
+                spine.css("transform", "translate(-50%, -50%) translateX(-25%)");
+                spine.removeClass("show");
             }
-            else if (page === totalPages) {
+            else if (page === total) {
                 flipbook.css("transform", "translateX(25%)");
+                spine.css("transform", "translate(-50%, -50%) translateX(25%)");
+                spine.removeClass("show");
             }
             else {
                 flipbook.css("transform", "translateX(0px)");
+                spine.css("transform", "translate(-50%, -50%) translateX(0px)");
+                spine.addClass("show");
             }
         }
 
         flipbook.turn({
             display: "double",
             autoCenter: false,
-            gradients: false,
-            elevation: 0,
+            gradients: true,
+            elevation: 50,
             duration: 800
         });
 
-        flipbook.on("turning", function (event, page, view) {
-            wrapper.classList.remove("show-fold");
+        flipbook.on("turning", function (event, page) {
             checkPosition(page);
-        });
-
-        flipbook.on("turned", function () {
-            const page = flipbook.turn("page");
-            const total = flipbook.turn("pages");
-
-            if (page !== 1 && page !== total) {
-                wrapper.classList.add("show-fold");
-            } else {
-                wrapper.classList.remove("show-fold");
-            }
         });
 
         resizeBook();
         checkPosition(1);
-        window.addEventListener("resize", resizeBook);
+
+        window.addEventListener("resize", () => {
+            resizeBook();
+            setTimeout(() => {
+                const currentPage = flipbook.turn("page");
+                checkPosition(currentPage);
+            }, 100);
+        });
 
         $("#next").click(() => flipbook.turn("next"));
         $("#prev").click(() => flipbook.turn("previous"));
