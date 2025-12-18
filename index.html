@@ -91,17 +91,22 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 6px;
-            height: 85%;
+            width: 15px;
+
+            height: var(--book-height);
+
             pointer-events: none;
             opacity: 0;
             background: linear-gradient(
                     to right,
-                    rgba(0,0,0,0.35),
-                    rgba(0,0,0,0.08),
-                    rgba(255,255,255,0.15)
+                    rgba(0,0,0,0.25) 0%,
+                    rgba(0,0,0,0.1) 35%,
+                    rgba(0,0,0,0.05) 50%,
+                    rgba(0,0,0,0.1) 65%,
+                    rgba(0,0,0,0.25) 100%
             );
             transition: opacity 0.25s ease;
+            z-index: 10;
         }
 
         .flipbook-wrapper.show-fold::after {
@@ -115,6 +120,10 @@
             padding: 0 !important;
             border: 0 !important;
             box-shadow: none !important;
+        }
+
+        #flipbook {
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
         #flipbook,
@@ -141,11 +150,10 @@
             font-size: clamp(12px, 1vw, 15px);
             letter-spacing: 2.2px;
             margin-top: 20px;
-
-
         }
 
         .book-button {
+            color: black;
             background: none;
             cursor: pointer;
             text-transform: uppercase;
@@ -259,18 +267,33 @@
             }
 
             flipbook.turn("size", bookWidth, bookHeight);
+
+            wrapper.style.setProperty('--book-height', bookHeight + 'px');
+        }
+
+        function checkPosition(page) {
+            if (page === 1) {
+                flipbook.css("transform", "translateX(-25%)");
+            }
+            else if (page === totalPages) {
+                flipbook.css("transform", "translateX(25%)");
+            }
+            else {
+                flipbook.css("transform", "translateX(0px)");
+            }
         }
 
         flipbook.turn({
             display: "double",
-            autoCenter: true,
+            autoCenter: false,
             gradients: false,
             elevation: 0,
             duration: 800
         });
 
-        flipbook.on("turning", function () {
+        flipbook.on("turning", function (event, page, view) {
             wrapper.classList.remove("show-fold");
+            checkPosition(page);
         });
 
         flipbook.on("turned", function () {
@@ -285,6 +308,7 @@
         });
 
         resizeBook();
+        checkPosition(1);
         window.addEventListener("resize", resizeBook);
 
         $("#next").click(() => flipbook.turn("next"));
